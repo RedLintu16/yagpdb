@@ -17,8 +17,9 @@ WORKDIR /app
 VOLUME ["/app/soundboard", "/app/cert"]
 EXPOSE 80 443
 
-# Dependencies: ca-certificates for client TLS, tzdata for timezone and ffmpeg for soundboard support
-RUN apk --no-cache add ca-certificates ffmpeg tzdata
+# Dependencies: ca-certificates for client TLS, tzdata for timezone, ffmpeg for soundboard support, python3/pip for yt-dlp
+RUN apk --no-cache add ca-certificates ffmpeg tzdata python3 py3-pip && \
+    pip3 install --no-cache-dir --break-system-packages yt-dlp
 
 COPY --from=builder /appbuild/yagpdb/cmd/yagpdb/yagpdb yagpdb
 
